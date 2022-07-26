@@ -16,7 +16,7 @@ const themesync = async () => {
 
   const vars = [ '--background-primary', '--background-secondary', '--brand-experiment', '--header-primary', '--text-muted' ];
 
-  let cached = await DiscordNative.userDataCache.getCached() || {};
+  const cached = await DiscordNative.userDataCache.getCached() || {};
 
   const value = `body { ${vars.reduce((acc, x) => acc += `${x}: ${getVar(x)}; `, '')} }`;
   const pastValue = cached['openasarSplashCSS'];

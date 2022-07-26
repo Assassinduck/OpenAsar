@@ -4,7 +4,6 @@ const Module = require('module');
 const { execFile } = require('child_process');
 const { app, autoUpdater } = require('electron');
 const request = require('request');
-
 const paths = require('../paths');
 
 const mkdir = (x) => fs.mkdirSync(x, { recursive: true });
@@ -105,7 +104,7 @@ const checkModules = async () => {
   remote = await new Promise((res) => request({
     url: baseUrl + '/versions.json',
     qs
-  }, (e, r, b) => res(JSON.parse(b))));
+  }, (_, __, b) => res(JSON.parse(b))));
 
   for (const name in installed) {
     const inst = installed[name].installedVersion;
@@ -249,7 +248,7 @@ exports.checkForUpdates = async () => {
 
   if (last > Date.now() - 10000) return done();
 
-  let p = [];
+  const p = [];
   if (!skipHost) {
     p.push(new Promise((res) => host.once('update-not-available', res)));
     host.checkForUpdates();

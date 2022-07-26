@@ -8,7 +8,7 @@ const presets = {
 
 
 module.exports = () => {
-  let c = {};
+  const c = {};
   for (const x of ('base,' + (oaConfig.cmdPreset || 'perf')).split(',').reduce((a, x) => a.concat(presets[x]?.split(' ')), [])) {
     if (!x) continue;
     const [ k, v ] = x.split('=');

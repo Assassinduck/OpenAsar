@@ -1,6 +1,6 @@
 const { ipcMain, app } = require('electron');
 
-ipcMain.on('DISCORD_UPDATED_QUOTES', (e, c) => {
+ipcMain.on('DISCORD_UPDATED_QUOTES', (_, c) => {
   if (c === 'o') exports.open();
 });
 
@@ -15,7 +15,7 @@ exports.open = () => {
   settings.set('openasar', config);
   settings.save();
 
-  ipcMain.on('cs', (e, c) => {
+  ipcMain.on('cs', (_, c) => {
     config = c;
     settings.set('openasar', config);
     settings.save(); // Ensure saving

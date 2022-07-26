@@ -54,7 +54,7 @@ const request = (...args) => {
 
     listeners['response']?.(res);
 
-    let data = [];
+    const data = [];
     res.on('data', (chunk) => {
       data.push(chunk);
       listeners['data']?.(chunk);

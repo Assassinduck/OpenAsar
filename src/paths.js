@@ -1,5 +1,4 @@
 const { join, dirname, basename } = require('path');
-const fs = require('fs');
 const { app } = require('electron');
 
 const buildInfo = require('./utils/buildInfo');

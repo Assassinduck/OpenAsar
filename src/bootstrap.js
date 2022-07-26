@@ -1,6 +1,5 @@
 const { app, session } = require('electron');
 const { readFileSync } = require('fs');
-const get = require('request');
 const { join } = require('path');
 
 if (!settings.get('enableHardwareAcceleration', true)) app.disableHardwareAcceleration();
@@ -33,12 +32,12 @@ const startCore = () => {
     cb(d);
   });
 
-  app.on('browser-window-created', (e, bw) => { // Main window injection
+  app.on('browser-window-created', (_, bw) => { // Main window injection
     bw.webContents.on('dom-ready', () => {
       if (!bw.resizable) return; // Main window only
       splash.pageReady(); // Override Core's pageReady with our own on dom-ready to show main window earlier
 
-      const [ channel, hash ] = oaVersion.split('-'); // Split via -
+      const [ _ ,hash ] = oaVersion.split('-'); // Split via -
 
       bw.webContents.executeJavaScript(readFileSync(join(__dirname, 'mainWindow.js'), 'utf8')
         .replaceAll('<hash>', hash || 'custom')
@@ -74,7 +73,7 @@ const startCore = () => {
 };
 
 const startUpdate = () => {
-  if (oaConfig.noTrack !== false) session.defaultSession.webRequest.onBeforeRequest({ urls: [ 'https://*/api/v9/science' ] }, async (e, cb) => cb({ cancel: true }));
+  if (oaConfig.noTrack !== false) session.defaultSession.webRequest.onBeforeRequest({ urls: [ 'https://*/api/v9/science' ] }, async (_e, cb) => cb({ cancel: true }));
 
   const startMin = process.argv?.includes?.('--start-minimized');
 
@@ -121,7 +120,7 @@ const startUpdate = () => {
 
 
 module.exports = () => {
-  app.on('second-instance', (e, a) => {
+  app.on('second-instance', (_e, a) => {
     desktopCore?.handleOpenUrl?.(a.includes('--url') && a[a.indexOf('--') + 1]); // Change url of main window if protocol is used (uses like "discord --url -- discord://example")
   });
 
